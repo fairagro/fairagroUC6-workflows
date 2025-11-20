@@ -347,3 +347,7 @@ rsconnect/
 
 # LOGS
 *.log
+
+# raster2sensor FOLDERS 
+data/
+logs/
