@@ -51,7 +51,8 @@ nohup.out
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Thumbnails
 ._*
@@ -343,3 +344,6 @@ rsconnect/
 
 
 .s4n
+
+# LOGS
+*.log
