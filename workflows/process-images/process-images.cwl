@@ -3,13 +3,6 @@
 cwlVersion: v1.2
 class: CommandLineTool
 
-requirements:
-- class: InitialWorkDirRequirement
-  listing:
-  - entryname: workflows/scripts/main.py
-    entry:
-      $include: ../scripts/main.py
-
 inputs:
 - id: process_images
   type: string
@@ -26,7 +19,7 @@ inputs:
     prefix: '--config'
 - id: dry-run
   type: boolean
-  default: true
+  default: false
   inputBinding:
     position: 2
     prefix: '--dry-run'
@@ -34,4 +27,5 @@ inputs:
 outputs: []
 baseCommand:
 - python
-- workflows/scripts/main.py
+- -m
+- raster2sensor
