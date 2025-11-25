@@ -16,20 +16,11 @@ inputs:
   default: process-images
   inputBinding:
     position: 0
-- id: config
-  type: File
-  default: 
-    class: File
-    location: '../config/config.yml'
-  inputBinding:
-    position: 1
-    prefix: '--config'
-- id: dry-run
+- id: help
   type: boolean
   default: true
   inputBinding:
-    position: 2
-    prefix: '--dry-run'
+    prefix: --help
 
 outputs: []
 baseCommand:
