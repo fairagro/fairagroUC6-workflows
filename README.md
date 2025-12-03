@@ -13,3 +13,8 @@ s4n create -n process-images python workflows/scripts/main.py process-images --h
 ``` bash
 s4n execute local workflows/process-images/process-images.cwl
 ```
+
+### Pending Issues
+
+- Creating workflows with an array of inputs using the cli tool
+
