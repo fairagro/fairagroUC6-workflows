@@ -4,28 +4,28 @@ cwlVersion: v1.2
 class: CommandLineTool
 
 inputs:
+- id: ndvi_file
+  type: string
+  default: '../../data/ndvi_results.csv'
+  inputBinding:
+    prefix: '--ndvi-file'
+    
 - id: config
   type: File
   default: 
     class: File
     location: '../config/config.yml'
   inputBinding:
-    position: 0
     prefix: '--config'
 
-- id: ndvi_file
-  type: string
-  default: '../../data/ndvi_results.csv'
-  inputBinding:
-    position: 0
-    prefix: '--ndvi-file'
+
 
 
 outputs:
 - id: out
   type: File
   outputBinding:
-    glob: $(inputs.ndvi_file)
+    glob: '../../data/ndvi_results.csv'
 
 baseCommand:
 - raster2sensor
