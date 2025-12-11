@@ -1,5 +1,6 @@
 sensorthingsapi_url: http://localhost:8080/FROST-Server/v1.1
 pygeoapi_url: http://localhost:5000/api
+ndvi_file: data/ndvi_results.csv
 trial_id: MyTrial-2025
 plot_id_field: ID
 year: 2025
