@@ -17,3 +17,4 @@ outputs: []
 baseCommand:
 - raster2sensor
 - process-images
+- --dry-run
