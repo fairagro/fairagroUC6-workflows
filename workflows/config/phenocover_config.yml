@@ -2,7 +2,7 @@
 # Edit this file with your specific analysis parameters
 
 # Required: Path to NDVI CSV file
-# ndvi_file: "NDVI_ Treatment Parcel - 0-data-2025-07-04 15_11_14.csv"
+ndvi_file: "data/ndvi_goetheweg_2024.csv"
 
 # Required: Sowing date in DD.MM.YYYY format
 sowing_date: "03.10.2023"
@@ -11,7 +11,7 @@ sowing_date: "03.10.2023"
 harvest_date: "30.07.2024"
 
 # Required: Path to GeoJSON file with field location coordinates
-geojson_file: "field_location.geojson"
+geojson_file: "data/field_location.geojson"
 
 # FVC estimation method: seasonal, dimyuk, or custom
 fvc_method: "seasonal"
@@ -20,16 +20,15 @@ fvc_method: "seasonal"
 interpolation_method: "balanced"
 
 # Optional: Output directory for results (default: results directory)
-output_dir: "./results"
+output_dir: "./data"
 
 # Optional: Output CSV filename (default: results/phenology_results.csv)
 # Use relative path or just filename (will be created in results directory)
-results_csv: "results/phenology_results.csv"
+results_csv: "data/phenology_results.csv"
 
 # Optional: Output visualization filename (default: results/phenology_analysis.png)
 # Use relative path or just filename (will be created in results directory)
-visualization_png: "results/phenology_analysis.png"
-
+visualization_png: "data/phenology_analysis.png"
 # Analysis options: Enable/disable specific analysis steps
 analysis_options:
   estimate_fvc: true
