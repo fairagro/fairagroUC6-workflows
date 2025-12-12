@@ -4,28 +4,20 @@ cwlVersion: v1.2
 class: CommandLineTool
 
 inputs:
-- id: ndvi_file
-  type: string
-  default: '../../data/ndvi_results.csv'
-  inputBinding:
-    prefix: '--ndvi-file'
-    
 - id: config
   type: File
   default: 
     class: File
-    location: '../config/config.yml'
+    location: '../config/raster2sensor_config.yml'
   inputBinding:
+    position: 0
     prefix: '--config'
 
-
-
-
 outputs:
-- id: out
+- id: ndvi_timeseries
   type: File
   outputBinding:
-    glob: '../../data/ndvi_results.csv'
+    glob: 'data/ndvi_*.csv'
 
 baseCommand:
 - raster2sensor
