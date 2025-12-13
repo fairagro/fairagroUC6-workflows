@@ -3,42 +3,43 @@
 cwlVersion: v1.2
 class: CommandLineTool
 
+requirements:
+  ShellCommandRequirement: {}
+  InlineJavascriptRequirement: {}
+  InitialWorkDirRequirement:
+    listing:
+      - $(inputs.geojson_file)
+      - $(inputs.ndvi_file)
+
 inputs:
-- id: config
-  type: File
-  default: 
-    class: File
-    location: '../config/phenocover_config.yml'
-  inputBinding:
-    position: 0
-    prefix: '--config'
 - id: ndvi_file
   type: File
   default:
     class: File
-    location: '../../data/ndvi_goetheweg_2024.csv'
-  inputBinding:
-    position: 1
-    prefix: '--ndvi-file'
+    location: /Volumes/Data/CODE/TUM/FAIRagroUC6/PersonalGitHub/fairagroUC6-workflows/ndvi_timeseries.csv
 - id: geojson_file
   type: File
   default:
     class: File
-    location: '../../data/field_location.geojson'
-  inputBinding:
-    position: 2
-    prefix: '--geojson-file'
+    location: /Volumes/Data/CODE/TUM/FAIRagroUC6/PersonalGitHub/fairagroUC6-workflows/data/field_location.geojson
+- id: sowing_date
+  type: string
+  default: "03.10.2023"
+- id: harvest_date
+  type: string
+  default: "30.07.2024"
  
 outputs:
 - id: phenology_results_csv
   type: File
   outputBinding:
-    glob: 'data/phenology_*.csv'
+    glob: 'phenology_results.csv'
 - id: phenology_results_png
   type: File
   outputBinding:
-    glob: 'data/phenology_*.png'
+    glob: 'phenology_analysis.png'
 
-baseCommand:
-- phenocover
-- phenology-analyzer
+arguments:
+- shellQuote: false
+  valueFrom: |
+    phenocover phenology-analyzer --ndvi-file "$(inputs.ndvi_file.basename)" --geojson-file "$(inputs.geojson_file.basename)" --sowing-date "$(inputs.sowing_date)" --harvest-date "$(inputs.harvest_date)" --output-dir results --visualization-png phenology_analysis.png --results-csv phenology_results.csv && cp results/phenology_results.csv phenology_results.csv && cp results/phenology_analysis.png phenology_analysis.png

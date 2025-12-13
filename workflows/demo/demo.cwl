@@ -6,6 +6,9 @@ class: Workflow
 inputs:
 - id: geojson
   type: File
+  default:
+    class: File
+    path: ../../data/field_location.geojson
 
 outputs:
 - id: results_png
@@ -23,7 +26,7 @@ steps:
   in: []
   run: ../fetch-ndvi/fetch-ndvi.cwl
   out:
-  - ndvi_file
+  - ndvi_timeseries
 - id: phenology-analyzer
   in:
   - id: ndvi_file

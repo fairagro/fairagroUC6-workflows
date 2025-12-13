@@ -1,39 +1,15 @@
-# FAIRagro UC6 Workflows
+# FAIRagro UC6 Crop Simulation Modelling Workflows
 
 ## Introduction
 
-## Usage
+The repository contains computational workflows for crop simulation modelling created using the [FAIRagro Scientific Workflow Infrastructure (SciWIn)](https://github.com/fairagro/sciwin) tool.
 
-### UAV Image Processing tools `raster2sensor`
+### Requirements
 
-#### Process Images
+To run the workflows, the following tools should be running on your system
 
-- Create tool
+1. [raster2sensor](https://github.com/tum-gis/raster2sensor) to process UAV images vegetation indices
+2. [phenocover](https://github.com/tum-gis/phenocover) for phenology and ground cover estimation
+3. [uc6_csmTools](https://github.com/leroy-bml/uc6_csmTools) ETL functions for semi-automated data integration into crop simulation modelling
 
-``` bash
-s4n create -n process-images python workflows/scripts/main.py process-images --help
-```
-
-- Run tool
-
-``` bash
-s4n execute local workflows/process-images/process-images.cwl
-```
-
----
-
-### Phenology and Ground Cover Estimation tools `phenocover`
-
-#### Phenology Analyzer
-
-- Create tool
-
-- Execute tool
-
----
-
-### Crop Modelling Simution Tools `uc6-csmTools`
-
----
-
-### Workflow
+## Workflows
