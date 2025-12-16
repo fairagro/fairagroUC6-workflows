@@ -33,7 +33,7 @@ subparsers <- parser$add_subparsers(
 
 # Command: extract-field
 extract_parser <- subparsers$add_parser(
-  "extract-field",
+  "extract-field-data",
   help = "Extract field data from ICASA template"
 )
 extract_parser$add_argument("--path", required = TRUE, help = "Path to template file")
@@ -134,7 +134,7 @@ execute_command <- function(args) {
     switch(args$command,
            
            # Extract field data
-           "extract-field" = {
+           "extract-field-data" = {
              message("Extracting field data from: ", args$path)
              data <- get_field_data(
                path = args$path,

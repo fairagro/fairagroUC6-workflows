@@ -16,7 +16,7 @@ inputs:
   default: "https://tuzehez-fairagro.srv.mwn.de/frost/v1.1"
 - id: ndvi_file
   type: string
-  default: "data/ndvi_goetheweg_2024.csv"
+  default: "ndvi_goetheweg_2024.csv"
 
 outputs:
 - id: ndvi_timeseries
@@ -27,4 +27,4 @@ outputs:
 arguments:
 - shellQuote: false
   valueFrom: |
-    mkdir -p data && raster2sensor plots fetch-ndvi --trial-id "$(inputs.trial_id)" --sensorthingsapi-url "$(inputs.sensorthingsapi_url)" --ndvi-file "$(inputs.ndvi_file)" && cp data/ndvi_*.csv ndvi_timeseries.csv
+    raster2sensor plots fetch-ndvi --trial-id "$(inputs.trial_id)" --sensorthingsapi-url "$(inputs.sensorthingsapi_url)" --ndvi-file "$(inputs.ndvi_file)" && mv "$(inputs.ndvi_file)" ndvi_timeseries.csv

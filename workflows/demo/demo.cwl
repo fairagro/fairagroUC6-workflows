@@ -24,7 +24,7 @@ outputs:
 steps:
 - id: fetch-ndvi
   in: []
-  run: ../fetch-ndvi/fetch-ndvi.cwl
+  run: ../raster2sensorTools/fetch-ndvi.cwl
   out:
   - ndvi_timeseries
 - id: phenology-analyzer
@@ -33,7 +33,7 @@ steps:
     source: fetch-ndvi/ndvi_timeseries
   - id: geojson_file
     source: geojson
-  run: ../phenology-analyzer/phenology-analyzer.cwl
+  run: ../phenocoverTools/phenology-analyzer.cwl
   out:
   - phenology_results_csv
   - phenology_results_png
