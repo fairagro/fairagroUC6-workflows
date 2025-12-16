@@ -351,3 +351,7 @@ rsconnect/
 # raster2sensor FOLDERS 
 data/
 logs/
+
+# ENV FILES
+*.Renviron
+*.env

@@ -1,0 +1,55 @@
+---
+config:
+  theme: base
+  look: neo
+  themeVariables:
+    primaryColor: '#C5E0B4'
+    primaryTextColor: '#231f20'
+    secondaryColor: '#EEEEEE'
+    lineColor: '#385723'    
+    fontSize: 12px
+    tertiaryTextColor: '#231f20'
+    fontFamily: 'Fira Sans, trebuchet ms, verdana, arial'
+---
+flowchart TB
+  linkStyle default stroke:#385723,stroke-width: 2px;
+  subgraph inputs[Workflow Inputs]
+    direction TB
+    geojson(geojson)
+  end
+  subgraph outputs[Workflow Outputs]
+    direction TB
+    results_png(results_png)
+    results_csv(results_csv)
+    ndvi_file(ndvi_file)
+  end
+    fetch-ndvi(fetch-ndvi)
+    fetch-ndvi_trial_id(Goetheweg-2024)
+  fetch-ndvi_trial_id --> |trial_id|fetch-ndvi
+    fetch-ndvi_sensorthingsapi_url(https://tuzehez-fairagro.srv.mwn.de/frost/v1.1)
+  fetch-ndvi_sensorthingsapi_url --> |sensorthingsapi_url|fetch-ndvi
+    fetch-ndvi_ndvi_file(data/ndvi_goetheweg_2024.csv)
+  fetch-ndvi_ndvi_file --> |ndvi_file|fetch-ndvi
+    phenology-analyzer(phenology-analyzer)
+  fetch-ndvi --> |ndvi_file|phenology-analyzer
+  geojson --> |geojson_file|phenology-analyzer
+    phenology-analyzer_sowing_date(03.10.2023)
+  phenology-analyzer_sowing_date --> |sowing_date|phenology-analyzer
+    phenology-analyzer_harvest_date(30.07.2024)
+  phenology-analyzer_harvest_date --> |harvest_date|phenology-analyzer
+  phenology-analyzer --> |results_png|results_png
+  phenology-analyzer --> |results_csv|results_csv
+  fetch-ndvi --> |ndvi_file|ndvi_file
+  style inputs fill:#EEEEEE,stroke-width:2px;
+  style geojson stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
+  style outputs fill:#EEEEEE,stroke-width:2px;
+  style results_png stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style results_csv stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style ndvi_file stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style fetch-ndvi stroke:#385723,stroke-width:2px;
+  style fetch-ndvi_trial_id font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
+  style fetch-ndvi_sensorthingsapi_url font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
+  style fetch-ndvi_ndvi_file font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
+  style phenology-analyzer stroke:#385723,stroke-width:2px;
+  style phenology-analyzer_sowing_date font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
+  style phenology-analyzer_harvest_date font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
