@@ -11,20 +11,26 @@ inputs:
 - id: trial_id
   type: string
   default: "Goetheweg-2024"
+  inputBinding:
+    prefix: --trial-id
 - id: sensorthingsapi_url
   type: string
   default: "https://tuzehez-fairagro.srv.mwn.de/frost/v1.1"
+  inputBinding:
+    prefix: --sensorthingsapi-url
 - id: ndvi_file
   type: string
-  default: "ndvi_goetheweg_2024.csv"
+  default: "ndvi_timeseries.csv"
+  inputBinding:
+    prefix: --ndvi-file
 
 outputs:
 - id: ndvi_timeseries
   type: File
   outputBinding:
-    glob: 'ndvi_timeseries.csv'
+    glob: $(inputs.ndvi_file)
 
-arguments:
-- shellQuote: false
-  valueFrom: |
-    raster2sensor plots fetch-ndvi --trial-id "$(inputs.trial_id)" --sensorthingsapi-url "$(inputs.sensorthingsapi_url)" --ndvi-file "$(inputs.ndvi_file)" && mv "$(inputs.ndvi_file)" ndvi_timeseries.csv
+baseCommand:
+- raster2sensor
+- plots
+- fetch-ndvi

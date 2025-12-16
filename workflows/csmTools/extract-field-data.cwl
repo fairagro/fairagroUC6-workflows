@@ -33,7 +33,7 @@ inputs:
     prefix: --output
 
 outputs:
-- id: field-data
+- id: field_data
   type: File
   outputBinding:
     glob: $(inputs.output)
