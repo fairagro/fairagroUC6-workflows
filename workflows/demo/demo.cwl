@@ -55,9 +55,20 @@ inputs:
   type: string
 - id: sensor_icasa_output
   type: string
-- id: nasa_data_output
+# climdata complementary weather (replaces NASA POWER-only get-weather-data)
+- id: climdata_dataset
   type: string
-- id: nasa_icasa_output
+- id: climdata_variables
+  type: string
+- id: climdata_overrides
+  type: string[]?
+- id: google_service_account
+  type: File?
+- id: cds_key
+  type: File?
+- id: climdata_data_output
+  type: string
+- id: climdata_icasa_output
   type: string
 - id: soil_data_output
   type: string
@@ -114,12 +125,12 @@ outputs:
 - id: sensor_data_icasa
   type: File
   outputSource: convert-sensor-data-icasa/sensor_data_icasa
-- id: nasa_data
+- id: climdata_data
   type: File
-  outputSource: get-weather-data/nasa_data
-- id: nasa_data_icasa
+  outputSource: get-climdata-weather/climdata_data
+- id: climdata_data_icasa
   type: File
-  outputSource: convert-nasa-data-icasa/nasa_data_icasa
+  outputSource: convert-climdata-weather-icasa/climdata_data_icasa
 - id: soil_data
   type: File
   outputSource: get-soil-profile/soil_data
@@ -240,7 +251,7 @@ steps:
   run: ../csmTools/convert-sensor-data-icasa.cwl
   out:
   - sensor_data_icasa
-- id: get-weather-data
+- id: get-climdata-weather
   in:
   - id: lon
     source: lon
@@ -248,20 +259,30 @@ steps:
     source: lat
   - id: season_file
     source: identify-production-season/production_season
-  - id: nasa_data_output
-    source: nasa_data_output
-  run: ../csmTools/get-weather-data.cwl
+  - id: climdata_dataset
+    source: climdata_dataset
+  - id: climdata_variables
+    source: climdata_variables
+  - id: climdata_overrides
+    source: climdata_overrides
+  - id: google_service_account
+    source: google_service_account
+  - id: cds_key
+    source: cds_key
+  - id: climdata_data_output
+    source: climdata_data_output
+  run: ../climdataTools/get-climdata-weather.cwl
   out:
-  - nasa_data
-- id: convert-nasa-data-icasa
+  - climdata_data
+- id: convert-climdata-weather-icasa
   in:
-  - id: nasa_data
-    source: get-weather-data/nasa_data
-  - id: nasa_icasa_output
-    source: nasa_icasa_output
-  run: ../csmTools/convert-nasa-data-icasa.cwl
+  - id: climdata_data
+    source: get-climdata-weather/climdata_data
+  - id: climdata_icasa_output
+    source: climdata_icasa_output
+  run: ../climdataTools/convert-climdata-weather-icasa.cwl
   out:
-  - nasa_data_icasa
+  - climdata_data_icasa
 - id: get-soil-profile
   in:
   - id: lon
@@ -298,7 +319,7 @@ steps:
   - id: sensor_icasa
     source: convert-sensor-data-icasa/sensor_data_icasa
   - id: nasa_icasa
-    source: convert-nasa-data-icasa/nasa_data_icasa
+    source: convert-climdata-weather-icasa/climdata_data_icasa
   - id: soil_data
     source: get-soil-profile/soil_data
   - id: field_data

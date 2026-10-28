@@ -23,6 +23,7 @@ The full pipeline takes field observations (UAV-derived NDVI, crop calendar, and
 | [raster2sensor](https://github.com/tum-gis/raster2sensor) | Process and manage temporal vegetation indices from UAV images using the  OGC SensorThings API standard |
 | [phenocover](https://github.com/tum-gis/phenocover) | Phenology analysis and ground-cover estimation |
 | [csmTools](https://github.com/fairagro/csmTools) | ETL functions for DSSAT data integration |
+| [climdata](https://github.com/Kaushikreddym/climdata) | Complementary weather data from eleven climate data providers (NASA POWER, ERA5, MSWX, DWD, HYRAS, …) |
 
 ## Quick Start
 
@@ -38,6 +39,10 @@ The full pipeline takes field observations (UAV-derived NDVI, crop calendar, and
 
 > **Note**: `config.yml` is gitignored — secret credentials are never committed.
 
+### Complementary weather data (climdata)
+
+Weather gaps not covered by field sensors are filled using [climdata](https://kaushikreddym.github.io/climdata/). Choose the provider in `config.yml` with `climdata_dataset` (default `POWER`; also `ERA5`, `MSWX`, `DWD`, `HYRAS`, `HOSTRADA`, `W5E5`, `CMIP`, `CMIP_W5E5`, `NEXGDDP`, `AGRI_ISIMIP`). MSWX and ERA5 need credentials placed in the gitignored `config/` directory and referenced via `google_service_account` (`config/service.json`) and `cds_key` (`config/.cdsapirc`). See [climdata-cli/README.md](climdata-cli/README.md).
+
 ## Repository Structure
 
 ```
@@ -45,6 +50,7 @@ fairagroUC6-workflows/
 │
 ├── config-example.yml          # Template for workflow configuration (copy → config.yml)
 ├── run-demo.sh                 # Entry-point script: executes demo.cwl via s4n
+├── climdata-cli/               # Python CLI + Dockerfile backing workflows/climdataTools
 ├── workflow.toml               # Workflow metadata (name, version)
 │
 └── workflows/
@@ -59,8 +65,8 @@ fairagroUC6-workflows/
     │   ├── identify-production-season.cwl
     │   ├── get-sensor-data.cwl         # Download observations from FROST server
     │   ├── convert-sensor-data-icasa.cwl
-    │   ├── get-weather-data.cwl        # Download weather from NASA POWER
-    │   ├── convert-nasa-data-icasa.cwl
+    │   ├── get-weather-data.cwl        # Download weather from NASA POWER (superseded by climdataTools)
+    │   ├── convert-nasa-data-icasa.cwl # (superseded by climdataTools)
     │   ├── get-soil-profile.cwl        # Extract soil data from SoilGrids
     │   ├── lookup-gs-dates.cwl         # Identify growth stage dates from phenology
     │   ├── convert-gs-dates-icasa.cwl
@@ -71,6 +77,10 @@ fairagroUC6-workflows/
     │   ├── build-simulation-files.cwl  # Generate DSSAT .filex, .sol, .wth files
     │   ├── run-simulations.cwl         # Execute DSSAT crop simulations
     │   └── plot-results.cwl            # Plot simulated vs. observed growth
+    │
+    ├── climdataTools/                  # Complementary weather via climdata (climdata-cli image)
+    │   ├── get-climdata-weather.cwl    # Download weather from any climdata provider
+    │   └── convert-climdata-weather-icasa.cwl  # Convert climdata weather → ICASA
     │
     ├── demo/
         └── demo.cwl            # Top-level workflow wiring all steps above

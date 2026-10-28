@@ -49,14 +49,28 @@ sensor_data:
   path: weather_sensor.json
 sensor_icasa_output: "weather_sensor_icasa.json"
 
-# csmtools: get-weather-data
-nasa_data_output: "weather_nasa.json"
+# climdata: get-climdata-weather (replaces csmtools get-weather-data)
+# Providers: MSWX, CMIP, POWER, DWD, HYRAS, HOSTRADA, W5E5, CMIP_W5E5,
+#            NEXGDDP, AGRI_ISIMIP, ERA5
+climdata_dataset: "POWER"
+climdata_variables: "tas,tasmax,tasmin,pr,rsds"
+# Optional Hydra overrides, e.g. for CMIP/NEXGDDP/CMIP_W5E5:
+# climdata_overrides: ["source_id=MPI-ESM1-2-HR", "experiment_id=historical"]
+# Credentials (config/ is gitignored). Uncomment when needed:
+# MSWX needs the Google service account, ERA5 the Copernicus CDS key (.cdsapirc format).
+# google_service_account:
+#   class: File
+#   path: config/service.json
+# cds_key:
+#   class: File
+#   path: config/.cdsapirc
+climdata_data_output: "weather_climdata.csv"
 
-# csmtools: convert-nasa-data-icasa
-nasa_data:
+# climdata: convert-climdata-weather-icasa (replaces convert-nasa-data-icasa)
+climdata_data:
   class: File
-  path: weather_nasa.json
-nasa_icasa_output: "weather_nasa_icasa.json"
+  path: weather_climdata.csv
+climdata_icasa_output: "weather_climdata_icasa.json"
 # csmtools: get-soil-profile
 soil_data_output: "soil_data.json"
 # csmtools: lookup-gs-dates
@@ -76,7 +90,7 @@ sensor_icasa:
   path: weather_sensor_icasa.json
 nasa_icasa:
   class: File
-  path: weather_nasa_icasa.json
+  path: weather_climdata_icasa.json
 soil_data:
   class: File
   path: soil_data.json

@@ -49,8 +49,8 @@ flowchart TB
     production_season_out(production_season)
     sensor_data_out(sensor_data)
     sensor_data_icasa_out(sensor_data_icasa)
-    nasa_data_out(nasa_data)
-    nasa_data_icasa_out(nasa_data_icasa)
+    climdata_data_out(climdata_data)
+    climdata_data_icasa_out(climdata_data_icasa)
     soil_data_out(soil_data)
     gs_dates_out(gs_dates)
     gs_dates_icasa_out(gs_dates_icasa)
@@ -93,7 +93,7 @@ flowchart TB
   get-field-data              --> |field_data|field_data_out
   identify-production-season  --> |production_season|production_season_out
 
-  %% ── Sensor + NASA weather ─────────────────────────────────────────────────
+  %% ── Sensor + climdata weather ─────────────────────────────────────────────────
   get-sensor-data(get-sensor-data)
   lon    --> |lon|get-sensor-data
   lat    --> |lat|get-sensor-data
@@ -108,18 +108,18 @@ flowchart TB
   conv_sen_uc(na)
   conv_sen_uc --> |unmatched_code|convert-sensor-data-icasa
 
-  get-weather-data(get-weather-data)
-  lon --> |lon|get-weather-data
-  lat --> |lat|get-weather-data
-  identify-production-season --> |season_file|get-weather-data
+  get-climdata-weather(get-climdata-weather)
+  lon --> |lon|get-climdata-weather
+  lat --> |lat|get-climdata-weather
+  identify-production-season --> |season_file|get-climdata-weather
 
-  convert-nasa-data-icasa(convert-nasa-data-icasa)
-  get-weather-data --> |nasa_data|convert-nasa-data-icasa
+  convert-climdata-weather-icasa(convert-climdata-weather-icasa)
+  get-climdata-weather --> |climdata_data|convert-climdata-weather-icasa
 
   get-sensor-data           --> |sensor_data|sensor_data_out
   convert-sensor-data-icasa --> |sensor_data_icasa|sensor_data_icasa_out
-  get-weather-data          --> |nasa_data|nasa_data_out
-  convert-nasa-data-icasa   --> |nasa_data_icasa|nasa_data_icasa_out
+  get-climdata-weather          --> |climdata_data|climdata_data_out
+  convert-climdata-weather-icasa   --> |climdata_data_icasa|climdata_data_icasa_out
 
   %% ── Soil profile ──────────────────────────────────────────────────────────
   get-soil-profile(get-soil-profile)
@@ -142,7 +142,7 @@ flowchart TB
   %% ── Dataset assembly ──────────────────────────────────────────────────────
   assemble-icasa-dataset(assemble-icasa-dataset)
   convert-sensor-data-icasa --> |sensor_icasa|assemble-icasa-dataset
-  convert-nasa-data-icasa   --> |nasa_icasa|assemble-icasa-dataset
+  convert-climdata-weather-icasa   --> |nasa_icasa|assemble-icasa-dataset
   get-soil-profile          --> |soil_data|assemble-icasa-dataset
   get-field-data            --> |field_data|assemble-icasa-dataset
   convert-gs-dates-icasa    --> |gs_dates_icasa|assemble-icasa-dataset
@@ -220,8 +220,8 @@ flowchart TB
   style production_season_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style sensor_data_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style sensor_data_icasa_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
-  style nasa_data_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
-  style nasa_data_icasa_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style climdata_data_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style climdata_data_icasa_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style soil_data_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style gs_dates_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style gs_dates_icasa_out stroke:#823909,fill:#F8CBAD,stroke-width:2px;
@@ -238,8 +238,8 @@ flowchart TB
   style identify-production-season stroke:#385723,stroke-width:2px;
   style get-sensor-data stroke:#385723,stroke-width:2px;
   style convert-sensor-data-icasa stroke:#385723,stroke-width:2px;
-  style get-weather-data stroke:#385723,stroke-width:2px;
-  style convert-nasa-data-icasa stroke:#385723,stroke-width:2px;
+  style get-climdata-weather stroke:#385723,stroke-width:2px;
+  style convert-climdata-weather-icasa stroke:#385723,stroke-width:2px;
   style get-soil-profile stroke:#385723,stroke-width:2px;
   style lookup-gs-dates stroke:#385723,stroke-width:2px;
   style convert-gs-dates-icasa stroke:#385723,stroke-width:2px;
@@ -282,8 +282,8 @@ flowchart TB
     frost_password(frost_password)
     frost_user_url(frost_user_url)
     sensor_icasa_output(sensor_icasa_output)
-    nasa_data_output(nasa_data_output)
-    nasa_icasa_output(nasa_icasa_output)
+    climdata_data_output(climdata_data_output)
+    climdata_icasa_output(climdata_icasa_output)
   end
   subgraph outputs[Workflow Outputs]
     direction TB
@@ -294,8 +294,8 @@ flowchart TB
     production_season(production_season)
     sensor_data(sensor_data)
     sensor_data_icasa(sensor_data_icasa)
-    nasa_data(nasa_data)
-    nasa_data_icasa(nasa_data_icasa)
+    climdata_data(climdata_data)
+    climdata_data_icasa(climdata_data_icasa)
   end
     fetch-ndvi(fetch-ndvi)
   trial_id --> |trial_id|fetch-ndvi
@@ -338,14 +338,14 @@ flowchart TB
   convert-sensor-data-icasa_from_format --> |from_format|convert-sensor-data-icasa
     convert-sensor-data-icasa_unmatched_code(na)
   convert-sensor-data-icasa_unmatched_code --> |unmatched_code|convert-sensor-data-icasa
-    get-weather-data(get-weather-data)
-  lon --> |lon|get-weather-data
-  lat --> |lat|get-weather-data
-  identify-production-season --> |season_file|get-weather-data
-  nasa_data_output --> |nasa_data_output|get-weather-data
-    convert-nasa-data-icasa(convert-nasa-data-icasa)
-  get-weather-data --> |nasa_data|convert-nasa-data-icasa
-  nasa_icasa_output --> |nasa_icasa_output|convert-nasa-data-icasa
+    get-climdata-weather(get-climdata-weather)
+  lon --> |lon|get-climdata-weather
+  lat --> |lat|get-climdata-weather
+  identify-production-season --> |season_file|get-climdata-weather
+  climdata_data_output --> |climdata_data_output|get-climdata-weather
+    convert-climdata-weather-icasa(convert-climdata-weather-icasa)
+  get-climdata-weather --> |climdata_data|convert-climdata-weather-icasa
+  climdata_icasa_output --> |climdata_icasa_output|convert-climdata-weather-icasa
   phenology-analyzer --> |phenology_results_png|phenology_results_png
   phenology-analyzer --> |phenology_results_csv|phenology_results_csv
   fetch-ndvi --> |ndvi_timeseries|ndvi_timeseries
@@ -353,8 +353,8 @@ flowchart TB
   identify-production-season --> |production_season|production_season
   get-sensor-data --> |sensor_data|sensor_data
   convert-sensor-data-icasa --> |sensor_data_icasa|sensor_data_icasa
-  get-weather-data --> |nasa_data|nasa_data
-  convert-nasa-data-icasa --> |nasa_data_icasa|nasa_data_icasa
+  get-climdata-weather --> |climdata_data|climdata_data
+  convert-climdata-weather-icasa --> |climdata_data_icasa|climdata_data_icasa
   style inputs fill:#EEEEEE,stroke-width:2px;
   style trial_id stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
   style sensorthingsapi_url stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
@@ -381,8 +381,8 @@ flowchart TB
   style frost_password stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
   style frost_user_url stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
   style sensor_icasa_output stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
-  style nasa_data_output stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
-  style nasa_icasa_output stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
+  style climdata_data_output stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
+  style climdata_icasa_output stroke:#0f9884,fill:#6FC1B5,stroke-width:2px;
   style outputs fill:#EEEEEE,stroke-width:2px;
   style phenology_results_png stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style phenology_results_csv stroke:#823909,fill:#F8CBAD,stroke-width:2px;
@@ -391,8 +391,8 @@ flowchart TB
   style production_season stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style sensor_data stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style sensor_data_icasa stroke:#823909,fill:#F8CBAD,stroke-width:2px;
-  style nasa_data stroke:#823909,fill:#F8CBAD,stroke-width:2px;
-  style nasa_data_icasa stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style climdata_data stroke:#823909,fill:#F8CBAD,stroke-width:2px;
+  style climdata_data_icasa stroke:#823909,fill:#F8CBAD,stroke-width:2px;
   style fetch-ndvi stroke:#385723,stroke-width:2px;
   style phenology-analyzer stroke:#385723,stroke-width:2px;
   style get-field-data stroke:#385723,stroke-width:2px;
@@ -402,5 +402,5 @@ flowchart TB
   style convert-sensor-data-icasa stroke:#385723,stroke-width:2px;
   style convert-sensor-data-icasa_from_format font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
   style convert-sensor-data-icasa_unmatched_code font-size:9px,fill:#cfeae6, stroke:#9FD6CE,stroke-width:2px;
-  style get-weather-data stroke:#385723,stroke-width:2px;
-  style convert-nasa-data-icasa stroke:#385723,stroke-width:2px;
+  style get-climdata-weather stroke:#385723,stroke-width:2px;
+  style convert-climdata-weather-icasa stroke:#385723,stroke-width:2px;

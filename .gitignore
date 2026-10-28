@@ -364,3 +364,4 @@ tmp/
 *.Renviron
 *.env
 config.yml
+config/
