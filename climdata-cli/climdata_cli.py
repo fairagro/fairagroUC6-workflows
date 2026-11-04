@@ -267,7 +267,10 @@ def _extract_era5(cfg, variables, lon, lat, start, end, data_dir):
             return xr.open_dataset(out).load()
 
     mirror_dir = os.path.join(data_dir, f"era5_LAT{lat:.3f}_LON{lon:.3f}")
-    mirror = PointERA5(mirror_dir)
+    # The default local filesystem does not create the .zarr store directory
+    # on first write; auto_mkdir does.
+    import fsspec
+    mirror = PointERA5(mirror_dir, fs=fsspec.filesystem("file", auto_mkdir=True))
     keys = {v: f"{ERA5_VARIABLES[v]['cds']}__{ERA5_VARIABLES[v]['stat']}" for v in variables}
     # ERA5Mirror submits months/variables concurrently through dask; the CDS
     # rejects that ("Maximum number queued requests ... request data
